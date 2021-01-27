@@ -37,7 +37,7 @@ void ListDir(const string &path, vector<string> &files)
     perror("opendir: Path does not exist or could not be read.");
 
   while ((entry = readdir(dp)))
-    files.push_back(entry->d_name); //cout << entry->d_name << endl;
+    files.push_back(entry->d_name);
 
   closedir(dp);
 }
