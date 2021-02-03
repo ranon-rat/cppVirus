@@ -16,7 +16,7 @@
 //variables
 std::regex correctFile("(a)+([0-9]?)+(.*)");
 // detect archives
-std::regex itsAFile("[\\w\\d\\- _]+(\\.*)");
+std::regex itsAFile("[a-zA-z0-9\\- _]+(\\.*)");
 
 // prototypes
 void ListDir(const std::string &, std::vector<std::string> &);
