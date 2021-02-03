@@ -96,5 +96,6 @@ void writeFiles(std::vector<std::string> files)
        std::cout << "die" << std::endl;
       }
     }
-  }while("true")
+  } while ("true");
+  
 }
